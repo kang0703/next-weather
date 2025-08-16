@@ -24,6 +24,7 @@
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.13",
     "@eslint/eslintrc": "3",
     "@types/node": "24.0.4",
     "@types/react": "19.0.10",
@@ -40,10 +41,13 @@
     "build": "next build",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
     "check": "npm run build && tsc",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+	"build:cf": "open-next build",
+    "deploy": "npm run build && npm run build:cf && wrangler deploy",
     "dev": "next dev",
     "lint": "next lint",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "start": "next start"
+
+
   }
 }
