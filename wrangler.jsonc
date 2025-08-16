@@ -14,9 +14,5 @@
   "observability": {
     "enabled": true
   },
-  "upload_source_maps": true,
-  "vars": {
-    "NEXT_PUBLIC_OPENWEATHER_API_KEY": "",
-    "NEXT_PUBLIC_PUBLIC_DATA_API_KEY": ""
-  }
+  "upload_source_maps": true
 }
