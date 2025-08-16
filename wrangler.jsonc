@@ -11,8 +11,8 @@
     "NODE_ENV": "production",
     "OPENWEATHER_API_BASE_URL": "https://api.openweathermap.org",
     "PUBLIC_DATA_API_BASE_URL": "https://apis.data.go.kr",
-    "OPENWEATHER_API_KEY": "your_openweather_api_key_here",
-    "PUBLIC_DATA_API_KEY": "your_public_data_api_key_here"
+    "NEXT_PUBLIC_OPENWEATHER_API_KEY": "{{OPENWEATHER_API_KEY}}",
+  	"NEXT_PUBLIC_PUBLIC_DATA_API_KEY": "{{PUBLIC_DATA_API_KEY}}"
   },
   "env": {
     "staging": {

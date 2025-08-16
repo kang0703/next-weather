@@ -74,9 +74,9 @@ export default function WeatherApp() {
   const [showAllFestivals, setShowAllFestivals] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
-  const API_KEY = process.env.OPENWEATHER_API_KEY || '';
+  const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY || '';
   const API_URL = 'https://api.openweathermap.org/data/2.5';
-  const PUBLIC_DATA_API_KEY = process.env.PUBLIC_DATA_API_KEY || '';
+  const PUBLIC_DATA_API_KEY = process.env.NEXT_PUBLIC_PUBLIC_DATA_API_KEY || '';
   const popularCities = [
     'Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Suwon', 'Ulsan', 'Seongnam', 'Bucheon',
     'Goyang', 'Yongin', 'Ansan', 'Anyang', 'Pohang', 'Jeonju', 'Changwon', 'Jeju', 'Gimhae', 'Gumi',
