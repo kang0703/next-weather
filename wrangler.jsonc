@@ -7,6 +7,27 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-04-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "vars": {
+    "NODE_ENV": "production",
+    "OPENWEATHER_API_BASE_URL": "https://api.openweathermap.org",
+    "PUBLIC_DATA_API_BASE_URL": "https://apis.data.go.kr"
+  },
+  "env": {
+    "staging": {
+      "vars": {
+        "NODE_ENV": "staging",
+        "OPENWEATHER_API_BASE_URL": "https://api.openweathermap.org",
+        "PUBLIC_DATA_API_BASE_URL": "https://apis.data.go.kr"
+      }
+    },
+    "production": {
+      "vars": {
+        "NODE_ENV": "production",
+        "OPENWEATHER_API_BASE_URL": "https://api.openweathermap.org",
+        "PUBLIC_DATA_API_BASE_URL": "https://apis.data.go.kr"
+      }
+    }
+  },
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"

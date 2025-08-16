@@ -4,6 +4,9 @@
 declare namespace Cloudflare {
 	interface Env {
 		ASSETS: Fetcher;
+		NODE_ENV: string;
+		OPENWEATHER_API_BASE_URL: string;
+		PUBLIC_DATA_API_BASE_URL: string;
 	}
 }
 interface CloudflareEnv extends Cloudflare.Env {}
