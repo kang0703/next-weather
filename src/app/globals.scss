@@ -1,0 +1,703 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+// SCSS 변수들
+$colors: (
+  'blue': (
+    50: #eff6ff,
+    100: #dbeafe,
+    200: #bfdbfe,
+    300: #93c5fd,
+    400: #60a5fa,
+    500: #3b82f6,
+    600: #2563eb,
+    700: #1d4ed8,
+    800: #1e40af,
+    900: #1e3a8a,
+  ),
+  'gray': (
+    50: #f9fafb,
+    100: #f3f4f6,
+    200: #e5e7eb,
+    300: #d1d5db,
+    400: #9ca3af,
+    500: #6b7280,
+    600: #4b5563,
+    700: #374151,
+    800: #1f2937,
+    900: #111827,
+  ),
+  'purple': (
+    500: #8b5cf6,
+    600: #7c3aed,
+  ),
+  'green': (
+    500: #10b981,
+    600: #059669,
+  ),
+  'orange': (
+    500: #f59e0b,
+    600: #d97706,
+  ),
+  'red': (
+    500: #ef4444,
+    600: #dc2626,
+  ),
+);
+
+$spacing: (
+  'xs': 0.25rem,
+  'sm': 0.5rem,
+  'md': 1rem,
+  'lg': 1.5rem,
+  'xl': 2rem,
+  '2xl': 3rem,
+);
+
+$fontSizes: (
+  'xs': 0.75rem,
+  'sm': 0.875rem,
+  'base': 1rem,
+  'lg': 1.125rem,
+  'xl': 1.25rem,
+  '2xl': 1.5rem,
+  '3xl': 1.875rem,
+  '4xl': 2.25rem,
+  '5xl': 3rem,
+);
+
+// SCSS 믹스인들
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin glass-effect {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@mixin gradient-text($from, $to) {
+  background: linear-gradient(to right, $from, $to);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin responsive-grid($columns, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(min($columns * 2, 4), 1fr);
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(min($columns * 3, 6), 1fr);
+  }
+}
+
+// Root CSS Variables
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary-blue: #{map-get(map-get($colors, 'blue'), 500)};
+  --primary-purple: #{map-get(map-get($colors, 'purple'), 500)};
+  --primary-green: #{map-get(map-get($colors, 'green'), 500)};
+  --primary-orange: #{map-get(map-get($colors, 'orange'), 500)};
+  --primary-red: #{map-get(map-get($colors, 'red'), 500)};
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+// Base styles
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+// Line clamp utilities
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Tailwind Layer Components - SCSS와 Tailwind를 함께 사용
+@layer components {
+  // Weather app container
+  .weather-app-container {
+    @apply min-h-screen transition-all duration-1000;
+    background: linear-gradient(to bottom right, #eff6ff, #e0e7ff, #f3e8ff);
+    
+    &--default {
+      background: linear-gradient(to bottom right, #eff6ff, #e0e7ff, #f3e8ff);
+    }
+  }
+
+  // Weather app specific styles
+  .weather-app {
+    @apply max-w-6xl mx-auto px-4 py-8;
+    
+    &__header {
+      @apply text-center mb-8;
+      
+      h1 {
+        @apply text-4xl font-bold mb-2;
+        @include gradient-text(map-get(map-get($colors, 'blue'), 500), map-get(map-get($colors, 'purple'), 500));
+      }
+      
+      p {
+        @apply text-lg text-gray-600 mb-2;
+      }
+      
+      &__time {
+        @apply text-sm text-gray-500;
+      }
+    }
+    
+    &__search {
+      margin-bottom: 2rem;
+      
+      &-form {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        align-items: stretch;
+        
+        @media (max-width: 768px) {
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+      }
+      
+      &-input-wrapper {
+        position: relative;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          top: -2px;
+          left: -2px;
+          right: -2px;
+          bottom: -2px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 0.75rem;
+          z-index: -1;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        &:focus-within::before {
+          opacity: 1;
+        }
+      }
+      
+      &-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #8b5cf6;
+        width: 1.25rem;
+        height: 1.25rem;
+        transition: all 0.3s ease;
+        z-index: 2;
+        pointer-events: none;
+      }
+      
+      &-input {
+        width: 100%;
+        padding: 1rem 1rem 1rem 3rem;
+        border: 2px solid rgba(139, 92, 246, 0.2);
+        border-radius: 0.75rem;
+        outline: none;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.95);
+        font-size: 1rem;
+        color: #1f2937;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        
+        &::placeholder {
+          color: #9ca3af;
+          font-weight: 400;
+        }
+        
+        &:focus {
+          border-color: #8b5cf6;
+          background: rgba(255, 255, 255, 1);
+          box-shadow: 
+            0 0 0 4px rgba(139, 92, 246, 0.1),
+            0 10px 25px -5px rgba(0, 0, 0, 0.1);
+          transform: translateY(-1px);
+        }
+        
+        &:hover {
+          border-color: rgba(139, 92, 246, 0.4);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+      }
+      
+      &-suggestions {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        border-radius: 1rem;
+        box-shadow: 
+          0 25px 50px -12px rgba(0, 0, 0, 0.25),
+          0 0 0 1px rgba(255, 255, 255, 0.05);
+        z-index: 10;
+        max-height: 16rem;
+        overflow-y: auto;
+        animation: slideDown 0.3s ease-out;
+      }
+      
+      // 검색 버튼 스타일
+      .search-button {
+        padding: 1rem 1.75rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        box-shadow: 
+          0 10px 25px -5px rgba(102, 126, 234, 0.4),
+          0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        min-width: 120px;
+        justify-content: center;
+        
+        &:hover {
+          background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+          transform: translateY(-2px);
+          box-shadow: 
+            0 20px 35px -10px rgba(102, 126, 234, 0.5),
+            0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
+        
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        svg {
+          transition: transform 0.3s ease;
+        }
+        
+        &:hover svg {
+          transform: scale(1.1);
+        }
+      }
+      
+      // 검색 히스토리와 인기 도시 스타일
+      .search-history-section {
+        .history-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #7c3aed;
+          margin-bottom: 0.75rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          
+          &::before {
+            content: '🕒';
+            font-size: 1rem;
+          }
+        }
+        
+        .history-buttons {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+          
+          .history-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            color: #374151;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            
+            &:hover {
+              background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              border-color: rgba(139, 92, 246, 0.4);
+            }
+            
+            &:active {
+              transform: translateY(0);
+            }
+          }
+        }
+      }
+      
+      .popular-cities-section {
+        .cities-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #2563eb;
+          margin-bottom: 0.75rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          
+          &::before {
+            content: '🌟';
+            font-size: 1rem;
+          }
+        }
+        
+        .cities-buttons {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          
+          .city-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            color: #1d4ed8;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            
+            &:hover {
+              background: linear-gradient(135deg, #bfdbfe, #93c5fd);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              border-color: rgba(59, 130, 246, 0.4);
+              color: #1e40af;
+            }
+            
+            &:active {
+              transform: translateY(0);
+            }
+          }
+        }
+      }
+    }
+    
+    &__suggestion {
+      &__category {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #8b5cf6;
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(118, 75, 162, 0.1));
+        border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      
+      &__item {
+        width: 100%;
+        padding: 0.75rem 1.25rem;
+        text-align: left;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all 0.2s ease;
+        border-radius: 0.5rem;
+        margin: 0.25rem;
+        
+        &:hover {
+          background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(118, 75, 162, 0.1));
+          transform: translateX(4px);
+        }
+        
+        &:active {
+          transform: translateX(2px) scale(0.98);
+        }
+      }
+      
+      &__icon {
+        width: 1.125rem;
+        height: 1.125rem;
+        color: #8b5cf6;
+        transition: all 0.2s ease;
+      }
+      
+      &__item:hover &__icon {
+        color: #7c3aed;
+        transform: scale(1.1);
+      }
+    }
+    
+    &__card {
+      @apply bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-6 transition-all duration-300;
+      margin-bottom: 2rem;
+      
+      &:hover {
+        @apply transform -translate-y-1 shadow-2xl;
+      }
+      
+      &.weather-card {
+        .temperature-display {
+          @apply text-center;
+          
+          .temp-value {
+            @apply text-6xl font-bold text-gray-800 mb-2;
+          }
+          
+          .weather-icon-large {
+            @apply flex items-center justify-center;
+            
+            svg {
+              @apply w-28 h-28 drop-shadow-lg transition-all duration-300;
+              
+              &:hover {
+                @apply scale-110 drop-shadow-xl;
+              }
+            }
+          }
+          
+          .temp-toggle {
+            @apply flex items-center justify-center gap-2;
+            
+            button {
+              @apply px-3 py-1 text-sm min-w-12 rounded-lg border border-gray-300 bg-white text-gray-700 transition-all duration-150;
+              
+              &:hover {
+                @apply bg-gray-50;
+              }
+              
+              &.active {
+                @apply bg-blue-500 text-white border-blue-500;
+              }
+            }
+          }
+        }
+        
+        .weather-stats {
+          @apply grid grid-cols-3 gap-4;
+          
+          .stat-item {
+            @apply flex flex-col items-center justify-center p-4 rounded-xl bg-blue-50/50;
+            
+            .stat-icon {
+              @apply mb-2 text-blue-500;
+            }
+            
+            .stat-value {
+              @apply text-xl font-bold text-blue-600 mb-1;
+            }
+            
+            .stat-label {
+              @apply text-xs text-gray-500;
+            }
+          }
+        }
+      }
+      
+      &.forecast-card {
+        .forecast-item {
+          @apply flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br from-blue-50/50 to-purple-50/50 transition-all duration-300 text-center;
+          
+          &:hover {
+            @apply transform -translate-y-1 shadow-lg;
+          }
+          
+          .weather-icon {
+            @apply my-2 animate-float;
+          }
+          
+          .temp-range {
+            @apply text-center my-2;
+            
+            .max-temp {
+              @apply text-lg font-bold text-gray-800;
+            }
+            
+            .min-temp {
+              @apply text-sm text-gray-600;
+            }
+          }
+        }
+      }
+      
+      &.festival-card {
+        .festival-item {
+          @apply flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br from-purple-50/50 to-orange-50/50 transition-all duration-300;
+          
+          &:hover {
+            @apply transform -translate-y-1 shadow-lg;
+          }
+          
+          .festival-image {
+            @apply w-full h-32 rounded-lg overflow-hidden mb-4;
+            
+            img {
+              @apply w-full h-full object-cover;
+            }
+          }
+          
+          .festival-title {
+            @apply font-bold text-gray-800 mb-2 text-center;
+          }
+          
+          .festival-details {
+            @apply text-sm text-gray-600 text-center;
+          }
+        }
+      }
+    }
+    
+    &__forecast-grid {
+      @apply grid grid-cols-5 gap-4 justify-center mx-auto;
+      
+      @media (max-width: 768px) {
+        @apply grid-cols-4;
+      }
+      
+      @media (max-width: 480px) {
+        @apply grid-cols-3;
+      }
+    }
+    
+    &__festival-grid {
+      @apply grid grid-cols-3 gap-4;
+      
+      @media (max-width: 768px) {
+        @apply grid-cols-2;
+      }
+      
+      @media (max-width: 480px) {
+        @apply grid-cols-1;
+      }
+    }
+    
+    &__loading {
+      .skeleton-item {
+        @apply bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-loading rounded-lg mb-2;
+        background-size: 200% 100%;
+      }
+    }
+    
+    &__error {
+      @apply bg-red-50/50 border-red-200/20;
+      
+      .error-icon {
+        @apply text-red-500;
+      }
+      
+      .error-title {
+        @apply text-red-500 font-bold;
+      }
+      
+      .error-message {
+        @apply text-red-500;
+      }
+    }
+  }
+}
+
+// 애니메이션
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+// 유틸리티 클래스
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+

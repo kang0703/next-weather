@@ -1,63 +1,97 @@
-# Next.js Framework Starter
+# Next.js Weather App
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/next-starter-template)
+고급스러운 디자인의 실시간 날씨 정보 앱입니다.
 
-<!-- dash-content-start -->
+## 🚀 주요 기능
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It's deployed on Cloudflare Workers as a [static website](https://developers.cloudflare.com/workers/static-assets/).
+- 🌍 전 세계 도시 날씨 검색
+- 🌡️ 실시간 온도 (섭씨/화씨 전환)
+- 💧 습도, 바람, 가시거리, UV 지수 등 상세 정보
+- 🌅 일출/일몰 시간
+- 📅 5일 날씨 예보
+- 🎨 모던하고 고급스러운 UI/UX
+- 📱 반응형 디자인
 
-This template uses [OpenNext](https://opennext.js.org/) via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare), which works by taking the Next.js build output and transforming it, so that it can run in Cloudflare Workers.
+## 🛠️ 기술 스택
 
-<!-- dash-content-end -->
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **HTTP Client**: Axios
+- **Weather API**: OpenWeatherMap
 
-Outside of this repo, you can start a new project with this template using [C3](https://developers.cloudflare.com/pages/get-started/c3/) (the `create-cloudflare` CLI):
+## 📦 설치 및 실행
 
-```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/next-starter-template
+1. **의존성 설치**
+   ```bash
+   npm install
+   ```
+
+2. **API 설정**
+   - OpenWeatherMap API가 이미 설정되어 있습니다.
+   - 무료 플랜으로 분당 60회, 일일 1,000회 API 호출이 가능합니다.
+
+3. **개발 서버 실행**
+   ```bash
+   npm run dev
+   ```
+
+4. **브라우저에서 확인**
+   - http://localhost:3000 으로 접속
+
+## 🔑 API 정보
+
+- **OpenWeatherMap API**: 이미 설정되어 있음 (무료 플랜)
+- **API 제한**: 분당 60회, 일일 1,000회
+- **데이터**: 현재 날씨, 5일 예보, 한국어 지원
+- **단위**: 섭씨 (metric)
+
+## 📱 사용법
+
+1. 검색창에 도시명 입력 (예: Seoul, Tokyo, New York)
+2. 검색 버튼 클릭
+3. 실시간 날씨 정보 확인
+4. 섭씨/화씨 전환 버튼으로 온도 단위 변경
+
+## 🎨 디자인 특징
+
+- **그라데이션 배경**: 부드러운 블루-인디고-퍼플 그라데이션
+- **글래스모피즘**: 반투명 카드와 블러 효과
+- **아이콘**: 직관적인 Lucide 아이콘 사용
+- **색상**: 각 정보별로 구분되는 색상 체계
+- **반응형**: 모바일과 데스크톱 모두 최적화
+
+## 🚨 에러 처리
+
+- API 키 미설정 시 안내 메시지
+- 도시를 찾을 수 없을 때 사용자 친화적 메시지
+- API 호출 한도 초과 시 안내
+- 네트워크 오류 시 재시도 안내
+
+## 📁 프로젝트 구조
+
+```
+src/
+├── app/
+│   ├── layout.tsx      # 앱 레이아웃
+│   ├── page.tsx        # 메인 날씨 앱 페이지
+│   └── globals.css     # 전역 스타일
 ```
 
-A live public deployment of this template is available at [https://next-starter-template.templates.workers.dev](https://next-starter-template.templates.workers.dev)
-
-## Getting Started
-
-First, run:
+## 🚀 배포
 
 ```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
+# 빌드
+npm run build
+
+# Cloudflare Workers에 배포
+npm run deploy
 ```
 
-Then run the development server (using the package manager of your choice):
+## 📄 라이선스
 
-```bash
-npm run dev
-```
+MIT License
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🤝 기여
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Deploying To Production
-
-| Command                           | Action                                       |
-| :-------------------------------- | :------------------------------------------- |
-| `npm run build`                   | Build your production site                   |
-| `npm run preview`                 | Preview your build locally, before deploying |
-| `npm run build && npm run deploy` | Deploy your production site to Cloudflare    |
-| `npm wrangler tail`               | View real-time logs for all Workers          |
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+버그 리포트나 기능 제안은 이슈로 등록해주세요.
